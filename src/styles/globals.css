@@ -1,0 +1,142 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@layer base {
+  :root {
+    --background: 240, 7%, 97%;
+    --foreground: 240, 7%, 6%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --card: 225, 10%, 93%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 176, 77%, 41%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 29% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 240, 7%, 97%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 227, 13%, 14%;
+    --foreground: 213 31% 91%;
+
+    --muted: 224, 16%, 27%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --accent: 227, 13%, 27%;
+    --accent-foreground: 210 40% 98%;
+
+    --popover: 231, 14%, 20%;
+    --popover-foreground: 213 31% 91%;
+
+    --card: 224, 16%, 19%;
+    --card-foreground: 213 31% 91%;
+
+    --primary: 176, 77%, 41%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 230, 12%, 29%;
+    --secondary-foreground: 210 40% 98%;
+
+    --border: 217, 19%, 27%;
+    --input: 227, 13%, 14%;
+    --radius: 0.5rem;
+  }
+}
+
+@theme {
+  /* Цвета */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius: 10px; /* Пример радиуса */
+  --font-geist-sans: "Geist Sans", sans-serif;
+
+  --animation-caret-blink: "caret-blink 1.25s ease-out infinite";
+
+  @keyframes caret-blink {
+    0%,
+    70%,
+    100% {
+      opacity: 1;
+    }
+    20%,
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-geist-sans h-[100vh] overscroll-none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-secondary/65 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-secondary;
+}
