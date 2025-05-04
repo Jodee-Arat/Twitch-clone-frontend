@@ -1,7 +1,5 @@
 "use client";
 
-import ChannelAvatar from "@/components/ui/elements/ChannelAvatar";
-
 import { useCurrent } from "@/hooks/useCurrent";
 
 export default function Home() {

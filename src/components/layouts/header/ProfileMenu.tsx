@@ -20,6 +20,8 @@ import { useLogoutUserMutation } from "@/graphql/generated/output";
 import { useAuth } from "@/hooks/useAuth";
 import { useCurrent } from "@/hooks/useCurrent";
 
+import Notifications from "./notifications/Notifications";
+
 const ProfileMenu = () => {
   const t = useTranslations("layout.header.headerMenu.profileMenu");
 
@@ -41,34 +43,37 @@ const ProfileMenu = () => {
   return isLoadingProfile || !user ? (
     <Loader className="text-muted-foreground size-6 animate-spin" />
   ) : (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <ChannelAvatar channel={user} />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[230px]">
-        <div className="flex items-center gap-x-3 p-2">
+    <>
+      <Notifications />
+      <DropdownMenu>
+        <DropdownMenuTrigger className="cursor-pointer">
           <ChannelAvatar channel={user} />
-          <h2 className="text-foreground font-medium">{user.username}</h2>
-        </div>
-        <DropdownMenuSeparator />
-        <Link href={`/${user.username}`}>
-          <DropdownMenuItem>
-            <User className="mr-2 size-2" />
-            {t("channel")}
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-[230px]">
+          <div className="flex items-center gap-x-3 p-2">
+            <ChannelAvatar channel={user} />
+            <h2 className="text-foreground font-medium">{user.username}</h2>
+          </div>
+          <DropdownMenuSeparator />
+          <Link href={`/${user.username}`}>
+            <DropdownMenuItem>
+              <User className="mr-2 size-2" />
+              {t("channel")}
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/dashboard/settings">
+            <DropdownMenuItem>
+              <LayoutDashboard className="mr-2 size-2" />
+              {t("dashboard")}
+            </DropdownMenuItem>
+          </Link>
+          <DropdownMenuItem onClick={() => logout()}>
+            <LogOut className="mr-2 size-2" />
+            {t("logout")}
           </DropdownMenuItem>
-        </Link>
-        <Link href="/dashboard/settings">
-          <DropdownMenuItem>
-            <LayoutDashboard className="mr-2 size-2" />
-            {t("dashboard")}
-          </DropdownMenuItem>
-        </Link>
-        <DropdownMenuItem onClick={() => logout()}>
-          <LogOut className="mr-2 size-2" />
-          {t("logout")}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 };
 

@@ -1,6 +1,8 @@
 import { PropsWithChildren } from "react";
 
+import LayoutContainer from "@/components/layouts/LayoutContainer";
 import Header from "@/components/layouts/header/Header";
+import Sidebar from "@/components/layouts/sidebar/Sidebar";
 
 const SiteLayout = ({ children }: PropsWithChildren<unknown>) => {
   return (
@@ -9,7 +11,8 @@ const SiteLayout = ({ children }: PropsWithChildren<unknown>) => {
         <div className="fixed inset-y-0 z-50 h-[75px] w-full">
           <Header />
         </div>
-        <main className="mt-[75px]">{children}</main>
+        <Sidebar />
+        <LayoutContainer>{children}</LayoutContainer>
       </div>
     </div>
   );

@@ -6,6 +6,9 @@
     --background: 240, 7%, 97%;
     --foreground: 240, 7%, 6%;
 
+    --background-replace: 227, 13%, 14%;
+    --foreground-replace: 213 31% 91%;
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
@@ -32,6 +35,9 @@
   .dark {
     --background: 227, 13%, 14%;
     --foreground: 213 31% 91%;
+
+    --background-replace: 240, 7%, 97%;
+    --foreground-replace: 240, 7%, 6%;
 
     --muted: 224, 16%, 27%;
     --muted-foreground: 215.4 16.3% 56.9%;
@@ -61,6 +67,9 @@
   /* Цвета */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
+
+  --color-background-replace: hsl(var(--background-replace));
+  --color-foreground-replace: hsl(var(--foreground-replace));
 
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
