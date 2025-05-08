@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,53 +23,54 @@ import {
 } from "@/components/ui/common/InputOTP";
 import { Input } from "@/components/ui/common/input";
 
-import { useLoginUserMutation } from "@/graphql/generated/output";
+import { useDeactivateAccountMutation } from "@/graphql/generated/output";
 
 import { useAuth } from "@/hooks/useAuth";
 
 import {
-  TypeLoginAccountSchema,
-  loginAccountSchema,
-} from "@/schemas/auth/login.account.schema";
+  TypeDeactivateSchema,
+  deactivateSchema,
+} from "@/schemas/auth/deactivate.schema";
 
 import AuthWrapper from "../AuthWrapper";
 
-const LoginForm = () => {
-  const t = useTranslations("auth.login");
+const DeactivateForm = () => {
+  const t = useTranslations("auth.deactivate");
 
   const router = useRouter();
 
-  const { auth } = useAuth();
+  const { exit } = useAuth();
 
-  const [isShowTwoFactor, setIsShowTwoFactor] = useState(false);
+  const [isShowConfirm, setIsShowConfirm] = useState(false);
 
-  const form = useForm<TypeLoginAccountSchema>({
-    resolver: zodResolver(loginAccountSchema),
+  const form = useForm<TypeDeactivateSchema>({
+    resolver: zodResolver(deactivateSchema),
     defaultValues: {
-      login: "",
+      email: "",
       password: "",
     },
   });
 
-  const [login, { loading: isLoadingLogin }] = useLoginUserMutation({
-    onCompleted(data) {
-      if (data.loginUser.message) {
-        setIsShowTwoFactor(true);
-      } else {
-        auth();
-        toast.success(t("successMessage"));
-        router.push("/dashboard/settings");
-      }
-    },
-    onError() {
-      toast.error(t("errorMessage"));
-    },
-  });
+  const [deactivate, { loading: isLoadingDeactivateAccount }] =
+    useDeactivateAccountMutation({
+      onCompleted(data) {
+        if (data.deactivateAccount.message) {
+          setIsShowConfirm(true);
+        } else {
+          exit();
+          toast.success(t("successMessage"));
+          router.push("/");
+        }
+      },
+      onError() {
+        toast.error(t("errorMessage"));
+      },
+    });
 
   const { isValid } = form.formState;
 
-  const onSubmit = (data: TypeLoginAccountSchema) => {
-    login({
+  const onSubmit = (data: TypeDeactivateSchema) => {
+    deactivate({
       variables: {
         data,
       },
@@ -81,11 +81,11 @@ const LoginForm = () => {
     <AuthWrapper
       heading={t("heading")}
       backButtonLabel={t("backButtonLabel")}
-      backButtonHref="/account/create"
+      backButtonHref="/dashboard/settings"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-y-3">
-          {isShowTwoFactor ? (
+          {isShowConfirm ? (
             <FormField
               control={form.control}
               name="pin"
@@ -112,18 +112,18 @@ const LoginForm = () => {
             <>
               <FormField
                 control={form.control}
-                name="login"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("loginLabel")}</FormLabel>
+                    <FormLabel>{t("emailLabel")}</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Johndoe"
-                        disabled={isLoadingLogin}
+                        placeholder="jodee@mail.ru"
+                        disabled={isLoadingDeactivateAccount}
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>{t("loginDescription")}</FormDescription>
+                    <FormDescription>{t("emailDescription")}</FormDescription>
                   </FormItem>
                 )}
               />
@@ -137,23 +137,23 @@ const LoginForm = () => {
                       <Input
                         placeholder="********"
                         type="password"
-                        disabled={isLoadingLogin}
+                        disabled={isLoadingDeactivateAccount}
                         {...field}
                       />
                     </FormControl>
 
-                    <Link
-                      href="/account/recovery"
-                      className="ml-auto inline-block text-sm"
-                    >
-                      {t("forgotPassword")}
-                    </Link>
+                    <FormDescription>
+                      {t("passwordDescription")}
+                    </FormDescription>
                   </FormItem>
                 )}
               />
             </>
           )}
-          <Button className="mt-2 w-full" disabled={!isValid || isLoadingLogin}>
+          <Button
+            className="mt-2 w-full"
+            disabled={!isValid || isLoadingDeactivateAccount}
+          >
             {t("submitButton")}
           </Button>
         </form>
@@ -162,4 +162,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default DeactivateForm;

@@ -32,6 +32,7 @@ const ProfileMenu = () => {
 
   const [logout] = useLogoutUserMutation({
     onCompleted() {
+      router.push("/account/login");
       exit();
       toast.success(t("successMessage"));
     },
