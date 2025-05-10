@@ -48,7 +48,7 @@ const ProfileMenu = () => {
       <Notifications />
       <DropdownMenu>
         <DropdownMenuTrigger className="cursor-pointer">
-          <ChannelAvatar channel={user} />
+          <ChannelAvatar channel={user} isLive={user.streams.isLive} />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[230px]">
           <div className="flex items-center gap-x-3 p-2">

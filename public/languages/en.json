@@ -74,6 +74,10 @@
         "fullscreen": {
           "open": "Fullscreen",
           "exit": "Exit Fullscreen"
+        },
+        "pause": {
+          "play": "start",
+          "pause": "pause"
         }
       }
     },

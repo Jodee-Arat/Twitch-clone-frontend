@@ -22,14 +22,14 @@ const ChannelVerified = ({ size }: ChannelVerifiedProps) => {
   return (
     <span
       className={cn(
-        "bg-primary flex items-center justify-center rounded-full p-0.5",
+        "bg-primary flex items-center justify-center rounded-full",
         channelVerifiedSizes({ size })
       )}
     >
       <Check
         className={cn(
-          "stroke-[4px] text-white",
-          size === "sm" ? "size-2" : "size-[11px]"
+          "stroke-[4px] p-[3px] text-white",
+          size === "sm" ? "size-2" : "size-4"
         )}
       />
     </span>

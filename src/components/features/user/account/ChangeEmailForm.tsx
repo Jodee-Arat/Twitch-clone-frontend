@@ -45,7 +45,7 @@ const ChangeEmailForm = () => {
       refetch();
       toast.success(t("successMessage"));
     },
-    onError() {
+    onError(error) {
       toast.error(t("errorMessage"));
     },
   });

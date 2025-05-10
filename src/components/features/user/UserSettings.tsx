@@ -14,9 +14,11 @@ import DeactivateCard from "./account/totp/DeactivateCard";
 import WrapperTOTP from "./account/totp/WrapperTOTP";
 import ChangeLanguageForm from "./appearance/ChangeLanguageForm";
 import ChangeThemeForm from "./appearance/ChangeThemeForm";
+import ChangeNotificationSettingsForm from "./notifications/ChangeNotificationSettingsForm";
 import ChangeAvatarForm from "./profile/ChangeAvatarForm";
 import ChangeInfoForm from "./profile/ChangeInfoForm";
 import SocialLinksForm from "./profile/social-links-form/SocialLinksForm";
+import SessionsList from "./session/SessionsList";
 
 const UserSettings = () => {
   const t = useTranslations("dashboard.settings");
@@ -79,8 +81,24 @@ const UserSettings = () => {
             <ChangeLanguageForm />
           </div>
         </TabsContent>
-        <TabsContent value="notifications"></TabsContent>
-        <TabsContent value="sessions"></TabsContent>
+        <TabsContent value="notifications">
+          <div className="mt-5 space-y-6">
+            <Heading
+              title={t("notifications.header.heading")}
+              description={t("notifications.header.description")}
+            />
+            <ChangeNotificationSettingsForm />
+          </div>
+        </TabsContent>
+        <TabsContent value="sessions">
+          <div className="mt-5 space-y-6">
+            <Heading
+              title={t("sessions.header.heading")}
+              description={t("sessions.header.description")}
+            />
+            <SessionsList />
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );

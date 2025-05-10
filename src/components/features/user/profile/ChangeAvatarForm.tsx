@@ -57,7 +57,7 @@ const ChangeAvatarForm = () => {
         refetch();
         toast.success(t("successRemoveMessage"));
       },
-      onError() {
+      onError(error) {
         toast.error(t("errorRemoveMessage"));
       },
     });

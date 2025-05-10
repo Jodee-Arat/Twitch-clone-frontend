@@ -5,7 +5,7 @@ import { cn } from "@/utils/tw-merge";
 function Skeleton({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("bg-muted animate-pulse rounded-md", className)}
+      className={cn("bg-muted animate-pulse rounded-lg", className)}
       {...props}
     />
   );

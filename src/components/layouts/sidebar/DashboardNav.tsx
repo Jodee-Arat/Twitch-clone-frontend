@@ -43,7 +43,7 @@ const DashboardNav = () => {
     },
     {
       label: t("premium"),
-      href: "/dashboard/premium",
+      href: "/dashboard/plans",
       icon: DollarSign,
     },
     {
