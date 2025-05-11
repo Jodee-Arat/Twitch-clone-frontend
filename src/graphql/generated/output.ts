@@ -691,6 +691,20 @@ export type MakePaymentMutationVariables = Exact<{
 
 export type MakePaymentMutation = { __typename?: 'Mutation', makePayment: { __typename?: 'makePaymentModel', url: string } };
 
+export type ChangeStreamInfoMutationVariables = Exact<{
+  data: ChangeStreamInfoInput;
+}>;
+
+
+export type ChangeStreamInfoMutation = { __typename?: 'Mutation', changeInfoStream: boolean };
+
+export type ChangeThumbnailStreamMutationVariables = Exact<{
+  thumbnail: Scalars['Upload']['input'];
+}>;
+
+
+export type ChangeThumbnailStreamMutation = { __typename?: 'Mutation', changeThumbnailStream: boolean };
+
 export type CreateIngressMutationVariables = Exact<{
   ingressType: Scalars['Float']['input'];
 }>;
@@ -704,6 +718,11 @@ export type GenerateStreamTokenMutationVariables = Exact<{
 
 
 export type GenerateStreamTokenMutation = { __typename?: 'Mutation', generateStreamToken: { __typename?: 'GenerateStreamTokenModel', token: string } };
+
+export type RemoveThumbnailStreamMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RemoveThumbnailStreamMutation = { __typename?: 'Mutation', removeThumbnailStream: boolean };
 
 export type ChangeEmailMutationVariables = Exact<{
   data: ChangeEmailInput;
@@ -801,7 +820,7 @@ export type UpdateSocialLinkMutation = { __typename?: 'Mutation', updateSocialLi
 export type FindAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllCategoriesQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'CategoryModel', title: string, thumbnailUrl: string, slug: string }> };
+export type FindAllCategoriesQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'CategoryModel', updatedAt: any, id: string, title: string, thumbnailUrl: string, slug: string }> };
 
 export type FindCategoryBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -820,7 +839,7 @@ export type FindChannelByUsernameQueryVariables = Exact<{
 }>;
 
 
-export type FindChannelByUsernameQuery = { __typename?: 'Query', findChannelByUsername: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null, isVerified: boolean, bio?: string | null, following: Array<{ __typename?: 'FollowModel', id: string }>, socialLinks?: Array<{ __typename?: 'SocialLinkModel', title: string, url: string }> | null, streams: { __typename?: 'StreamModel', id: string, thumbnailUrl?: string | null, title: string, isChatEnabled: boolean, isChatFollowersOnly: boolean, isChatPremiumFollowersOnly: boolean, isLive: boolean, category?: { __typename?: 'CategoryModel', title: string } | null }, sponsorshipPlans: Array<{ __typename?: 'PlanModel', id: string, description?: string | null, title: string, price: number }> } };
+export type FindChannelByUsernameQuery = { __typename?: 'Query', findChannelByUsername: { __typename?: 'UserModel', id: string, username: string, displayName: string, avatar?: string | null, isVerified: boolean, bio?: string | null, following: Array<{ __typename?: 'FollowModel', id: string }>, socialLinks?: Array<{ __typename?: 'SocialLinkModel', title: string, url: string }> | null, streams: { __typename?: 'StreamModel', id: string, thumbnailUrl?: string | null, title: string, isChatEnabled: boolean, isChatFollowersOnly: boolean, isChatPremiumFollowersOnly: boolean, isLive: boolean, category?: { __typename?: 'CategoryModel', id: string, title: string } | null }, sponsorshipPlans: Array<{ __typename?: 'PlanModel', id: string, description?: string | null, title: string, price: number }> } };
 
 export type FindRecommendedChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -833,6 +852,13 @@ export type FindSponsorsByChannelQueryVariables = Exact<{
 
 
 export type FindSponsorsByChannelQuery = { __typename?: 'Query', findSponsorsByChannel: Array<{ __typename?: 'SubscriptionModel', user: { __typename?: 'UserModel', id: string, username: string, avatar?: string | null } }> };
+
+export type FindChatMessagesByStreamQueryVariables = Exact<{
+  streamId: Scalars['String']['input'];
+}>;
+
+
+export type FindChatMessagesByStreamQuery = { __typename?: 'Query', findChatMessagesByStream: Array<{ __typename?: 'ChatMessageModel', createdAt: any, text: string, user: { __typename?: 'UserModel', id: string, username: string } }> };
 
 export type FindMyFollowersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -905,6 +931,13 @@ export type GenerateTotpSecretQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GenerateTotpSecretQuery = { __typename?: 'Query', generateTotpSecret: { __typename?: 'TotpModel', qrcodeUrl: string, secret: string } };
+
+export type ChatMessageAddedSubscriptionVariables = Exact<{
+  streamId: Scalars['String']['input'];
+}>;
+
+
+export type ChatMessageAddedSubscription = { __typename?: 'Subscription', chatMessageAdded: { __typename?: 'ChatMessageModel', createdAt: any, text: string, user: { __typename?: 'UserModel', id: string, username: string } } };
 
 
 export const CreateUserDocument = gql`
@@ -1356,6 +1389,68 @@ export function useMakePaymentMutation(baseOptions?: Apollo.MutationHookOptions<
 export type MakePaymentMutationHookResult = ReturnType<typeof useMakePaymentMutation>;
 export type MakePaymentMutationResult = Apollo.MutationResult<MakePaymentMutation>;
 export type MakePaymentMutationOptions = Apollo.BaseMutationOptions<MakePaymentMutation, MakePaymentMutationVariables>;
+export const ChangeStreamInfoDocument = gql`
+    mutation ChangeStreamInfo($data: ChangeStreamInfoInput!) {
+  changeInfoStream(data: $data)
+}
+    `;
+export type ChangeStreamInfoMutationFn = Apollo.MutationFunction<ChangeStreamInfoMutation, ChangeStreamInfoMutationVariables>;
+
+/**
+ * __useChangeStreamInfoMutation__
+ *
+ * To run a mutation, you first call `useChangeStreamInfoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeStreamInfoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeStreamInfoMutation, { data, loading, error }] = useChangeStreamInfoMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useChangeStreamInfoMutation(baseOptions?: Apollo.MutationHookOptions<ChangeStreamInfoMutation, ChangeStreamInfoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeStreamInfoMutation, ChangeStreamInfoMutationVariables>(ChangeStreamInfoDocument, options);
+      }
+export type ChangeStreamInfoMutationHookResult = ReturnType<typeof useChangeStreamInfoMutation>;
+export type ChangeStreamInfoMutationResult = Apollo.MutationResult<ChangeStreamInfoMutation>;
+export type ChangeStreamInfoMutationOptions = Apollo.BaseMutationOptions<ChangeStreamInfoMutation, ChangeStreamInfoMutationVariables>;
+export const ChangeThumbnailStreamDocument = gql`
+    mutation ChangeThumbnailStream($thumbnail: Upload!) {
+  changeThumbnailStream(thumbnail: $thumbnail)
+}
+    `;
+export type ChangeThumbnailStreamMutationFn = Apollo.MutationFunction<ChangeThumbnailStreamMutation, ChangeThumbnailStreamMutationVariables>;
+
+/**
+ * __useChangeThumbnailStreamMutation__
+ *
+ * To run a mutation, you first call `useChangeThumbnailStreamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeThumbnailStreamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeThumbnailStreamMutation, { data, loading, error }] = useChangeThumbnailStreamMutation({
+ *   variables: {
+ *      thumbnail: // value for 'thumbnail'
+ *   },
+ * });
+ */
+export function useChangeThumbnailStreamMutation(baseOptions?: Apollo.MutationHookOptions<ChangeThumbnailStreamMutation, ChangeThumbnailStreamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeThumbnailStreamMutation, ChangeThumbnailStreamMutationVariables>(ChangeThumbnailStreamDocument, options);
+      }
+export type ChangeThumbnailStreamMutationHookResult = ReturnType<typeof useChangeThumbnailStreamMutation>;
+export type ChangeThumbnailStreamMutationResult = Apollo.MutationResult<ChangeThumbnailStreamMutation>;
+export type ChangeThumbnailStreamMutationOptions = Apollo.BaseMutationOptions<ChangeThumbnailStreamMutation, ChangeThumbnailStreamMutationVariables>;
 export const CreateIngressDocument = gql`
     mutation CreateIngress($ingressType: Float!) {
   createIngress(ingressType: $ingressType)
@@ -1420,6 +1515,36 @@ export function useGenerateStreamTokenMutation(baseOptions?: Apollo.MutationHook
 export type GenerateStreamTokenMutationHookResult = ReturnType<typeof useGenerateStreamTokenMutation>;
 export type GenerateStreamTokenMutationResult = Apollo.MutationResult<GenerateStreamTokenMutation>;
 export type GenerateStreamTokenMutationOptions = Apollo.BaseMutationOptions<GenerateStreamTokenMutation, GenerateStreamTokenMutationVariables>;
+export const RemoveThumbnailStreamDocument = gql`
+    mutation RemoveThumbnailStream {
+  removeThumbnailStream
+}
+    `;
+export type RemoveThumbnailStreamMutationFn = Apollo.MutationFunction<RemoveThumbnailStreamMutation, RemoveThumbnailStreamMutationVariables>;
+
+/**
+ * __useRemoveThumbnailStreamMutation__
+ *
+ * To run a mutation, you first call `useRemoveThumbnailStreamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveThumbnailStreamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeThumbnailStreamMutation, { data, loading, error }] = useRemoveThumbnailStreamMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRemoveThumbnailStreamMutation(baseOptions?: Apollo.MutationHookOptions<RemoveThumbnailStreamMutation, RemoveThumbnailStreamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveThumbnailStreamMutation, RemoveThumbnailStreamMutationVariables>(RemoveThumbnailStreamDocument, options);
+      }
+export type RemoveThumbnailStreamMutationHookResult = ReturnType<typeof useRemoveThumbnailStreamMutation>;
+export type RemoveThumbnailStreamMutationResult = Apollo.MutationResult<RemoveThumbnailStreamMutation>;
+export type RemoveThumbnailStreamMutationOptions = Apollo.BaseMutationOptions<RemoveThumbnailStreamMutation, RemoveThumbnailStreamMutationVariables>;
 export const ChangeEmailDocument = gql`
     mutation ChangeEmail($data: ChangeEmailInput!) {
   changeEmail(data: $data)
@@ -1861,6 +1986,8 @@ export type UpdateSocialLinkMutationOptions = Apollo.BaseMutationOptions<UpdateS
 export const FindAllCategoriesDocument = gql`
     query FindAllCategories {
   findAllCategories {
+    updatedAt
+    id
     title
     thumbnailUrl
     slug
@@ -2021,6 +2148,7 @@ export const FindChannelByUsernameDocument = gql`
       isChatPremiumFollowersOnly
       isLive
       category {
+        id
         title
       }
     }
@@ -2154,6 +2282,51 @@ export type FindSponsorsByChannelQueryHookResult = ReturnType<typeof useFindSpon
 export type FindSponsorsByChannelLazyQueryHookResult = ReturnType<typeof useFindSponsorsByChannelLazyQuery>;
 export type FindSponsorsByChannelSuspenseQueryHookResult = ReturnType<typeof useFindSponsorsByChannelSuspenseQuery>;
 export type FindSponsorsByChannelQueryResult = Apollo.QueryResult<FindSponsorsByChannelQuery, FindSponsorsByChannelQueryVariables>;
+export const FindChatMessagesByStreamDocument = gql`
+    query FindChatMessagesByStream($streamId: String!) {
+  findChatMessagesByStream(streamId: $streamId) {
+    createdAt
+    text
+    user {
+      id
+      username
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindChatMessagesByStreamQuery__
+ *
+ * To run a query within a React component, call `useFindChatMessagesByStreamQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindChatMessagesByStreamQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindChatMessagesByStreamQuery({
+ *   variables: {
+ *      streamId: // value for 'streamId'
+ *   },
+ * });
+ */
+export function useFindChatMessagesByStreamQuery(baseOptions: Apollo.QueryHookOptions<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables> & ({ variables: FindChatMessagesByStreamQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables>(FindChatMessagesByStreamDocument, options);
+      }
+export function useFindChatMessagesByStreamLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables>(FindChatMessagesByStreamDocument, options);
+        }
+export function useFindChatMessagesByStreamSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables>(FindChatMessagesByStreamDocument, options);
+        }
+export type FindChatMessagesByStreamQueryHookResult = ReturnType<typeof useFindChatMessagesByStreamQuery>;
+export type FindChatMessagesByStreamLazyQueryHookResult = ReturnType<typeof useFindChatMessagesByStreamLazyQuery>;
+export type FindChatMessagesByStreamSuspenseQueryHookResult = ReturnType<typeof useFindChatMessagesByStreamSuspenseQuery>;
+export type FindChatMessagesByStreamQueryResult = Apollo.QueryResult<FindChatMessagesByStreamQuery, FindChatMessagesByStreamQueryVariables>;
 export const FindMyFollowersDocument = gql`
     query FindMyFollowers {
   findMyFollowers {
@@ -2793,3 +2966,38 @@ export type GenerateTotpSecretQueryHookResult = ReturnType<typeof useGenerateTot
 export type GenerateTotpSecretLazyQueryHookResult = ReturnType<typeof useGenerateTotpSecretLazyQuery>;
 export type GenerateTotpSecretSuspenseQueryHookResult = ReturnType<typeof useGenerateTotpSecretSuspenseQuery>;
 export type GenerateTotpSecretQueryResult = Apollo.QueryResult<GenerateTotpSecretQuery, GenerateTotpSecretQueryVariables>;
+export const ChatMessageAddedDocument = gql`
+    subscription ChatMessageAdded($streamId: String!) {
+  chatMessageAdded(streamId: $streamId) {
+    createdAt
+    text
+    user {
+      id
+      username
+    }
+  }
+}
+    `;
+
+/**
+ * __useChatMessageAddedSubscription__
+ *
+ * To run a query within a React component, call `useChatMessageAddedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useChatMessageAddedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChatMessageAddedSubscription({
+ *   variables: {
+ *      streamId: // value for 'streamId'
+ *   },
+ * });
+ */
+export function useChatMessageAddedSubscription(baseOptions: Apollo.SubscriptionHookOptions<ChatMessageAddedSubscription, ChatMessageAddedSubscriptionVariables> & ({ variables: ChatMessageAddedSubscriptionVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<ChatMessageAddedSubscription, ChatMessageAddedSubscriptionVariables>(ChatMessageAddedDocument, options);
+      }
+export type ChatMessageAddedSubscriptionHookResult = ReturnType<typeof useChatMessageAddedSubscription>;
+export type ChatMessageAddedSubscriptionResult = Apollo.SubscriptionResult<ChatMessageAddedSubscription>;

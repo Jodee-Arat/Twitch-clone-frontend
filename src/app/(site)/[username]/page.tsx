@@ -48,6 +48,7 @@ export async function generateMetadata(props: {
 
   const { channel } = await findChannelByUsername(params);
 
+  if (!channel) return notFound();
   return {
     title: channel.displayName,
     description: channel?.bio ?? channel.displayName,

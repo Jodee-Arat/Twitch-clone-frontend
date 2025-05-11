@@ -2,6 +2,8 @@ import { Skeleton } from "@/components/ui/common/Skeleton";
 
 import { type FindChannelByUsernameQuery } from "@/graphql/generated/output";
 
+import StreamSettings from "../../settings/StreamSettings";
+
 import FollowButton from "./FollowButton";
 import ShareActions from "./ShareActions";
 import SupportButton from "./SupportButton";
@@ -16,6 +18,7 @@ const StreamActions = ({ channel }: StreamActionsProps) => {
       {channel.isVerified && channel.sponsorshipPlans.length > 0 && (
         <SupportButton channel={channel} />
       )}
+      <StreamSettings channel={channel} />
       <ShareActions channel={channel} />
     </div>
   );

@@ -14,11 +14,18 @@ import {
 } from "@/components/ui/common/Card";
 import { Skeleton } from "@/components/ui/common/Skeleton";
 
-import { FindChannelByUsernameQuery } from "@/graphql/generated/output";
+import {
+  FindChannelByUsernameQuery,
+  useFindMyFollowingsQuery,
+  useFindSponsorsByChannelQuery,
+} from "@/graphql/generated/output";
 
 import { useAuth } from "@/hooks/useAuth";
+import { useCurrent } from "@/hooks/useCurrent";
 
+import ChatInfo from "./ChatInfo";
 import LoadingChat from "./LoadingChat";
+import MessagesList from "./MessagesList";
 import SendMessageForm from "./SendMessageForm";
 
 interface LiveChatProps {
@@ -37,14 +44,45 @@ const LiveChat = ({
   const t = useTranslations("stream.chat");
 
   const { isAuthenticated } = useAuth();
+  const { isLoadingProfile, user } = useCurrent();
+
+  const { data: followingsData, loading: isLoadingFollowings } =
+    useFindMyFollowingsQuery({
+      skip: !isAuthenticated,
+    });
+  const followings = followingsData?.findMyFollowings ?? [];
+
+  const { data: sponsorsData, loading: isLoadingSponsors } =
+    useFindSponsorsByChannelQuery({
+      variables: {
+        channelId: channel.id,
+      },
+    });
+  const sponsors = sponsorsData?.findSponsorsByChannel ?? [];
+
+  const isOwnerChannel = user?.id === channel.id;
+  const isFollower = followings.some(
+    (following) => following.followingId === channel.id
+  );
+  const isSponsor = sponsors.some((sponsor) => sponsor.user.id === user?.id);
 
   const connectionState = useConnectionState();
   const participant = useRemoteParticipant(channel.id);
 
   const isOnline = participant && ConnectionState.Connected;
-  const isDisabled = !!isOnline || !isAuthenticated;
+  const isDisabled =
+    !isOnline ||
+    (!isChatEnabled && !isOwnerChannel) ||
+    !isAuthenticated ||
+    (isChatFollowersOnly && !isFollower && !isOwnerChannel) ||
+    (isChatPremiumFollowersOnly && !isSponsor && !isOwnerChannel);
 
-  if (connectionState === ConnectionState.Connecting) {
+  if (
+    connectionState === ConnectionState.Connecting ||
+    isLoadingProfile ||
+    isLoadingFollowings ||
+    isLoadingSponsors
+  ) {
     return <LoadingChat />;
   }
 
@@ -54,8 +92,17 @@ const LiveChat = ({
         <CardTitle className="text-center text-lg">{t("heading")}</CardTitle>
       </CardHeader>
       <CardContent className="flex h-full flex-col overflow-y-auto p-4">
-        {!isOnline ? (
+        {isOnline ? (
           <>
+            <MessagesList channel={channel} />
+            <ChatInfo
+              isSponsor={isSponsor}
+              isChatEnabled={isChatEnabled}
+              isChatFollowersOnly={isChatFollowersOnly}
+              isChatPremiumFollowersOnly={isChatPremiumFollowersOnly}
+              isFollower={isFollower}
+              isOwnerChannel={isOwnerChannel}
+            />
             <SendMessageForm channel={channel} isDisabled={isDisabled} />
           </>
         ) : (

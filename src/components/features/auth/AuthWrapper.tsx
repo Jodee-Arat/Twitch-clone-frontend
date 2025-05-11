@@ -27,12 +27,7 @@ const AuthWrapper = ({
     <div className="flex h-full items-center justify-center">
       <Card className="w-[450px]">
         <CardHeader className="flex-row items-center justify-center gap-x-4">
-          <Image
-            src="/images/favicon.ico"
-            alt="TeaStreamClone"
-            width={40}
-            height={40}
-          />
+          <Image src="/images/favicon.ico" alt="Arat" width={40} height={40} />
           <CardTitle>{heading}</CardTitle>
         </CardHeader>
         <CardContent>{children}</CardContent>

@@ -11,15 +11,10 @@ const Logo = () => {
       href="/"
       className="flex items-center gap-x-4 transition-opacity hover:opacity-75"
     >
-      <Image
-        src="/images/favicon.ico"
-        alt="TeaStreamClone"
-        width={35}
-        height={35}
-      />
+      <Image src="/images/favicon.ico" alt="Arat" width={35} height={35} />
       <div className="hidden leading-tight lg:block">
         <h2 className="text-accent-foreground text-lg font-semibold tracking-wider">
-          TeaStreamClone
+          Arat
         </h2>
         <p className="text-muted-foreground text-sm">{t("platform")}</p>
       </div>

@@ -52,7 +52,7 @@ const SendMessageForm = ({ channel, isDisabled }: SendMessageFormProps) => {
     sendMessage({
       variables: {
         data: {
-          streamId: channel.stream.id,
+          streamId: channel.streams.id,
           text: data.text,
         },
       },
@@ -75,7 +75,7 @@ const SendMessageForm = ({ channel, isDisabled }: SendMessageFormProps) => {
                   <Textarea
                     placeholder={t("placeholder")}
                     rows={1}
-                    disabled={isDisabled}
+                    disabled={isDisabled || isLoadingSendMessage}
                     onInput={(e) => {
                       e.currentTarget.style.height = "auto";
                       e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
@@ -91,7 +91,7 @@ const SendMessageForm = ({ channel, isDisabled }: SendMessageFormProps) => {
                   />
                   <div className="absolute right-2 top-2 cursor-pointer">
                     <EmojiPicker
-                      isDisabled={isDisabled}
+                      isDisabled={isDisabled || isLoadingSendMessage}
                       onChange={(emoji: string) =>
                         field.onChange(`${field.value} ${emoji}`)
                       }
@@ -102,7 +102,11 @@ const SendMessageForm = ({ channel, isDisabled }: SendMessageFormProps) => {
             </FormItem>
           )}
         />
-        <Button size="lgIcon" type="submit" disabled={isDisabled || !isValid}>
+        <Button
+          size="lgIcon"
+          type="submit"
+          disabled={isDisabled || !isValid || isLoadingSendMessage}
+        >
           <SendHorizonal className="size-4" />
         </Button>
       </form>

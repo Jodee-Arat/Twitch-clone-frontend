@@ -105,7 +105,7 @@ const ChatSettings = () => {
             render={({ field }) => (
               <ToggleCard
                 heading={t("isChatPremiumFollowersOnly.heading")}
-                isDisabled={isLoadingChangeChatSettings}
+                isDisabled={isLoadingChangeChatSettings || !user?.isVerified}
                 description={t("isChatPremiumFollowersOnly.description")}
                 onChange={(value) =>
                   onChange("isChatPremiumFollowersOnly", value)
